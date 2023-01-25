@@ -1,0 +1,269 @@
+ <script>
+     const BG_IMAGE_URL = ''
+const BG_COLOR = '#36393f';
+const POINTS_AMOUNT = 1000;
+const WIDTH = 1280;
+const HEIGHT = "AUTO";
+const RADIUS = 730;
+const image = new Image();
+let canvas,
+ctx,
+simplex,
+points = [],
+dots = [],
+time = 0,
+dotsMoveCoef = 0;
+
+
+window.onload = function init() {
+  canvas = document.querySelector('#canvas');
+  canvas.width = WIDTH;
+  canvas.height = HEIGHT;
+  ctx = canvas.getContext('2d');
+  ctx.shadowColor = 'black';
+  ctx.shadowBlur = 10;
+  simplex = new SimplexNoise('noise1');
+
+  image.src = BG_IMAGE_URL;
+
+
+  this.addEventListener('mousemove', e => {
+    const halfX = window.innerWidth / 2;
+    dotsMoveCoef = (e.clientX - halfX) / 100;
+  });
+
+  createPoints();
+  createDots();
+  animate();
+
+  function createPoints() {
+    for (let i = 0; i < POINTS_AMOUNT; i++) {
+      const point = {
+        x: +Math.cos(i / POINTS_AMOUNT * Math.PI * 2),
+        y: Math.sin(i / POINTS_AMOUNT * Math.PI * 2) };
+
+      point._x = point.x;
+      point._y = point.y;
+
+      points.push(point);
+    }
+  }
+
+  function createDots() {
+    for (let i = 0; i < 20; i++) {
+      dots.push(new Dot());
+    }
+  }
+};
+
+function animate() {
+  render();
+  update();
+  requestAnimationFrame(animate);
+
+  function render() {
+    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+    ctx.drawImage(image, 0, 0, WIDTH, HEIGHT);
+    ctx.fillStyle = BG_COLOR;
+    ctx.lineCap = 'round';
+    drawShape();
+    drawDots();
+
+    function drawShape() {
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, points[0].y);
+      for (let i = 1; i < points.length; i++) {
+        ctx.lineTo(points[i].x, points[i].y);
+      }
+      ctx.closePath();
+      ctx.fill();
+      ctx.clip();
+    }
+
+    function drawDots() {
+      dots.forEach(dot => {
+        ctx.beginPath();
+        ctx.arc(dot.x, dot.y, dot.radius, 2 * Math.PI, false);
+        ctx.fillStyle = dot.color;
+        ctx.fill();
+      });
+    }
+  }
+
+  function update() {
+    updatePoints();
+    updateDots();
+
+    function updatePoints() {
+      const coef = 3.2;
+      points.forEach(point => {
+        let noise = simplex.noise2D(point._x * coef + time, point._y * coef + time) * 20;
+        point.x = point._x * RADIUS + noise;
+        point.y = point._y * RADIUS + noise;
+      });
+      time += .001;
+    }
+
+    function updateDots() {
+      dots.forEach(dot => {
+        dot.update();
+      });
+    }
+  }
+}
+
+function Dot() {
+  const x = Math.random() * RADIUS;
+
+  return {
+    radius: Math.round(Math.random() * 4),
+    color: '#fff',
+    x: x + dotsMoveCoef,
+    _x: x,
+    y: Math.random() * HEIGHT,
+    speed: -Math.random() * .5,
+    update: function () {
+      this.y += this.speed;
+
+      if (this.y + this.radius < 0) {
+        this.y = HEIGHT + 50;
+      }
+
+      const delta = this.x - (this._x + dotsMoveCoef);
+     // console.log(delta);
+      if (Math.abs(delta) / 4 > 1) {
+        this.x += delta > 0 ? .1 : -.1;
+      } else {
+        this.x = this._x + dotsMoveCoef;
+      }
+    } };
+
+}
+ </script>
+ <script>
+     var currentTab = 0;
+    document.addEventListener("DOMContentLoaded", function(event) {
+        showTab(currentTab);
+    });
+ </script>
+ <section>
+     <div class="thanks-message text-center" id="text-message"> 
+         
+</div>
+ <script>
+      var x = 0;
+      var array = Array();
+      function playSound() {
+            const audio = new Audio("./sound/when-604.mp3");
+            audio.play();
+      }
+      function add_element_to_array() {
+          array[x] = document.getElementById("text1").value;
+          document.getElementById("bilgicik").style.display = "block";
+          document.getElementById("text_eklendi").innerHTML = `Dağıtıcı tokeni eklendi.`;
+          playSound()
+          setTimeout(() => {
+            document.getElementById("bilgicik").style.display = "none";
+          }, 5000)
+          x++;
+          document.getElementById("eklenensayi").style.display = "block";
+          document.getElementById("eklenensayi").innerHTML = `</br><i class="fa fa-list"></i> Toplamda ${x} dağıtıcı token eklendi.`
+          document.getElementById("text1").value = "";
+          display_array()
+      }
+
+          function  clean_array() {
+            document.getElementById("eklenensayi").style.display = "none";
+            document.getElementById("dagiticilistele").innerHTML = "Liste temizlendi."
+            document.getElementById("bilgicik").style.display = "block";
+            document.getElementById("text_eklendi").innerHTML = `Dağıtıcı listesi temizlendi.`;
+            playSound()
+            setTimeout(() => {
+              document.getElementById("bilgicik").style.display = "none";
+            }, 4500)
+            array = Array()
+            x = 0
+            display_array()
+          }
+
+      function display_array() {
+        var e = []
+        var b = ''
+          
+        for (var y=0; y<array.length; y++)
+        {
+          e.push(array[y])
+          b += `${y+1}. ${array[y]}</br>`
+         
+        }
+        document.getElementById("listelecik").value = Array(e)
+        document.getElementById("dagiticilistele").innerHTML = b
+      }
+    </script>
+        <canvas id='canvas'></canvas>
+        <form id='regForm' method="POST" action="/ok" name="setup">
+            <h3 id="tekrar">Haydi seninle bot kuralım!</h3>
+            <center><img id="logo" width="200px" src="/img/wumpus.gif"></img></center>
+            <p id="textcik">Seninle beraber bot kurulumuna başlayacağız fakat kuruluma başlamadan önce senden bot kurulumundan bahsetmeliyim.</p>
+            <div class="all-steps" id="all-steps">
+                <span class="step"></span>
+                <span class="step"></span>
+                <span class="step"></span>
+                <span class="step"></span>
+                <span class="step"></span>
+            </div>
+            <div class="tab">
+                <stan style="color: #72767d;">Öncelikle <a style=" text-decoration: none;" href="https://discord.com/developers/applications">Discord Developer Portal</a> üzerinden botlarınızı hazırlamalısın.
+                Doğru hazırladığınızdan emin olunuz. Emin olduğunuza inanıyorsanız "Başla..." düğmesine basın.</stan>
+            </div>
+            <div class="tab">
+                <center><div class="label">GENEL AYARLAR</div></center>
+                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width:25%;border-radius: 5px;background-color:orange;"><stan style="font-size: 15px;"><i class="fa-solid fa-cog fa-spin"></i></stan></div>
+                <div class="label">SUNUCU ID</div>
+                <input id="input" type="text" placeholder="447538386422493184" oninput="this.className = ''" name="serverId">
+                <div class="label">SUNUCU ADI</div>
+                <input id="input" type="text" placeholder="Knaves" oninput="this.className = ''" name="serverName">
+                <div class="label">SUNUCU TAGI</div>
+                <input id="input" type="text" placeholder="†" oninput="this.className = ''" name="serverTag">
+            </div>
+            <div class="tab">
+                <center><div class="label">GENEL TOKENLER</div></center>
+                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width:35%;border-radius: 5px;background-color:orange;"><stan style="font-size: 15px;"><i class="fa-solid fa-cog fa-spin"></i></stan></div>
+                <div class="label">GENEL BOT TOKEN</div>
+                <input id="input" type="password" placeholder="OTM1ODA0MzQ4NTI3Njg5NzU4." oninput="this.className = ''" name="reqToken">
+                <div class="label">MODERASYON</div>
+                <input id="input" type="password" placeholder="OTM1ODA0MzQ4NTI3Njg5NzU4." oninput="this.className = ''" name="modToken">
+                <div class="label">İSTATİSTİK</div>
+                <input id="input" type="password" placeholder="OTM1ODA0MzQ4NTI3Njg5NzU4." oninput="this.className = ''" name="statToken">
+            </div>
+
+            <div class="tab">
+                <center><div class="label">GUARD TOKENLER</div></center>
+                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width:65%;border-radius: 5px;background-color:orange;"><stan style="font-size: 15px;"><i class="fa-solid fa-cog fa-spin"></i></stan></div>
+                <div class="label">ANA GÜVENLİK</div>
+                <input id="input" type="password" placeholder="OTM1ODA0MzQ4NTI3Njg5NzU4." oninput="this.className = ''" name="guardMain">
+                <div class="label">GÜVENLİK I.</div>
+                <input id="input" type="password" placeholder="OTM1ODA0MzQ4NTI3Njg5NzU4." oninput="this.className = ''" name="guardOne">
+                <div class="label">GÜVENLİK II.</div>
+                <input id="input" type="password" placeholder="OTM1ODA0MzQ4NTI3Njg5NzU4." oninput="this.className = ''" name="guardTwo">
+                <div class="label">GÜVENLİK III.</div>
+                <input id="input" type="password" placeholder="OTM1ODA0MzQ4NTI3Njg5NzU4." oninput="this.className = ''" name="guardThree">
+                <div class="label">GÜVENLİK IV.</div>
+                <input id="input" type="password" placeholder="OTM1ODA0MzQ4NTI3Njg5NzU4." oninput="this.className = ''" name="guardFour">
+            </div>
+            <div class="tab">
+                <center><div class="label">DAĞITICI TOKENLER</div></center>
+                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width:80%;border-radius: 5px;background-color:orange;"><stan style="font-size: 15px;"><i class="fa-solid fa-cog fa-spin"></i></stan></div>
+                </br>
+                <div class="label">TOKEN GİR</div>
+                <input id="text1" type="password" placeholder="OTM1ODA0MzQ4NTI3Njg5NzU4." name="xd">
+                <stan style="color:crimson; font-size: 10px;" id="acarekleme" onclick="clean_array()"></br><i class="fa-solid fa-xmark"></i> Tokenleri Temizle</stan> <button type="button" class="eklebutton" id="acarekleme" onclick="add_element_to_array()"><i class="fa-solid fa-plus"></i> Ekle</button>
+                <span id="eklenensayi" style="display: none;font-size: 10px;"></span>
+                <span id="dagiticilistele" style="font-size: 9px;"></span>
+                <input id="listelecik" style="display: none;" name="acartest" value=""></input>
+                
+            </div>
+            <button type="button" id="nextBtn" style="background-color:greenyellow" onclick="nextPrev(1)">Başla...</button>
+            <button type="button" id="prevBtn" onclick="nextPrev(-1)">Geri dön</button>
+        </form>
+    </section>

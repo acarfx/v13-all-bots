@@ -1,0 +1,33 @@
+const { ACAR } = require('../../Global/Clients/Global.Clients');
+const { Websocket } = require('../../Global/Clients/Global.Web.Clients');
+const { Mongoose } = require('../../Global/Databases/Global.MongoDB.Driver');
+const client = global.client = new ACAR();
+const { GUILD } = require('../../Global/Init/Settings');
+
+// Client Ayarları (Başlangıç)
+ayarlar = global.ayarlar = client.ayarlar = {}
+client.botName = "Web"
+// Client Ayarları (SON)
+
+Mongoose.Connect()
+GUILD.fetch(sistem.SERVER.ID)
+client.fetchCommands(false)
+client.fetchEvents(false)
+let WEB_INTERFACE = (new Websocket("443", client))
+client.connect(sistem.TOKENS.Voucher)
+
+const { GiveawaysManager } = require('../../Global/Plugins/Giveaway');
+// Starts updating currents giveaways
+const manager = new GiveawaysManager(client, {
+    storage: '../Voucher/giveaways.json',
+    updateCountdownEvery: 10000,
+    hasGuildMembersIntent: true,
+    default: {
+        botsCanWin: false,
+        exemptPermissions: ['MANAGE_MESSAGES', 'ADMINISTRATOR'],
+        embedColor: 'RANDOM',
+        reaction: '<:acar_giveaway:997955638195929279>'
+    }
+});
+
+client.giveawaysManager = manager;

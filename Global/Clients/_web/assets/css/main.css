@@ -1,0 +1,166 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    background-image: url("../img/discord.png");
+  }
+  
+  body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  body section {
+    position: relative;
+    height: auto;
+    box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.15);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  body section canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  body section form {
+    position: relative;
+    display: block;
+    width: 480px;
+    height: 734px;
+    background: #36393f;
+    padding: 50px;
+    border-radius: 7.5px;
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
+    font-family: Whitley,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+  .formuzun {
+    position: relative;
+    display: block;
+    width: 480px;
+    height: 884px;
+    background: #36393f;
+    padding: 50px;
+    border-radius: 7.5px;
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
+    font-family: Whitley,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+  body section form h3 {
+    font-size: 26px;
+    font-weight: 300;
+    text-align: center;
+    color: whitesmoke;
+  }
+  body section form p {
+    font-size: 16px;
+    color: #72767d;
+    text-align: center;
+  }
+  body section form .label {
+    position: relative;
+    font-size: 11px;
+    margin-top: 16px;
+    color: #8e9297;
+    font-weight: bold;
+  }
+  body section form input {
+    position: relative;
+    width: 100%;
+    height: 40px;
+    margin-top: 10px;
+    color: #dcddde;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    border-radius: 3px;
+    outline: none;
+    background: rgba(0, 0, 0, 0.1);
+  }
+  body section form input:focus {
+    border-color: #7289da;
+  }
+  body section form button {
+    width: 100%;
+    height: 44px;
+    margin-top: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    background: #575b61;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    -webkit-appearance: button;
+  }
+  body section form button:hover {
+    font-weight: bold;
+    background: #2f3236;
+    outline: none;
+    border: none;
+    border-radius: 7.5px;
+    color: white;
+    cursor: pointer;
+    -webkit-appearance: button;
+  }
+
+  input.invalid {
+    background-color: #ffdddd
+}
+
+.tab {
+    display: none
+}
+#prevBtn {
+   display: none;
+   background-color: #575b61;
+   font-weight: bold;
+   outline: none;
+   border: none;
+   border-radius: 7.5px;
+   color: white;
+   cursor: pointer;
+   -webkit-appearance: button;
+}
+#prevBtn:hover {
+   display: none;
+   background-color: #2f3236;
+   font-weight: bold;
+   outline: none;
+   border: none;
+   border-radius: 7.5px;
+   color: white;
+   cursor: pointer;
+   -webkit-appearance: button;
+}
+.step {
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color:  #575b61;;
+    border: none;
+    border-radius: 50%;
+    display: inline-block;
+    opacity: 0.5
+}
+
+.step.active {
+    opacity: 1
+}
+
+.step.finish {
+    background-color: orange
+}
+.all-steps {
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 15px
+}
+
+.thanks-message {
+    display: none
+}
